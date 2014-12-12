@@ -109,7 +109,7 @@ document.getElementById('log').innerHTML += "<br>f() starts";
       .forEach(function(d) {
         d._children = d.children;
         d.sum = d.value;
-        d.key = key(d); level+=d.value; 
+        d.key = key(d);  
        // d.fill = fill(d);
       });
 document.getElementById('log').innerHTML += "<br>1";
@@ -147,14 +147,14 @@ var text = g.append("text")
     .attr("dy", ".35em") // vertical-align
     .attr("font-family", "sans-serif")
 	.text(function(d) {return d.name; });
-document.getElementById("SD").innerHTML = level;
+//document.getElementById("SD").innerHTML = level;
 document.getElementById('log').innerHTML += "<br>7";
 function computeTextRotation(d) {
 document.getElementById('log').innerHTML += "<br>computeTextRotation()";
   return ((d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
 }
 	  
-  function zoomIn(p) {g.attr("opacity", 0);
+  function zoomIn(p) {g.attr("opacity", 0); document.getElementById("SD").innerHTML = p.name;
 	document.getElementById('log').innerHTML += "<br>zoomIn1";
     if (p.depth > 1) p = p.parent;
 	document.getElementById('log').innerHTML += "<br>zoomIn2";
