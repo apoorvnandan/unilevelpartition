@@ -5,11 +5,12 @@
 	display:none;
 	}
 	#SD {
-		color: green;
+		color: white;
+		font-family: "sans-serif";
 		z-index:100;
 		position:absolute;
 		top:350px;
-		left:480px;
+		left:470px;
 	}
 </style>
 
@@ -171,7 +172,7 @@ document.getElementById('log').innerHTML += "<br>computeTextRotation()";
 	document.getElementById('log').innerHTML += "<br>zoomIn3";
   }
 
-  function zoomOut(p) {g.attr("opacity", 0); document.getElementById("SD").innerHTML = p.name + " "+p.size;
+  function zoomOut(p) {g.attr("opacity", 0); document.getElementById("SD").innerHTML = p.parent.name + " "+p.parent.size;
     if (!p.parent) return; 
     zoom(p.parent, p);
   }
