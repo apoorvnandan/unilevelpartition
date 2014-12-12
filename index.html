@@ -110,9 +110,10 @@ f();
 var level=0;
 function f() {
 document.getElementById('log').innerHTML += "<br>f() starts";
- document.getElementById("SD").innerHTML = root.name +" "+ root.size;
+ 
   	var currentPos = parseInt(document.getElementById("SD").style.left);
   	document.getElementById("SD").style.left = currentPos - $("#SD").width()/2;
+  	document.getElementById("SD").innerHTML = root.name +" "+ root.size + "|"+currentPos+"|"+$("#SD").width()/2;
   // Compute the initial layout on the entire tree to sum sizes.
   // Also compute the full name and fill color for each node,
   // and stash the children so they can be restored as we descend.
