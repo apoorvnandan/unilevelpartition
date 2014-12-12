@@ -111,7 +111,7 @@ f();
 var level=0;
 function f() {
 document.getElementById('log').innerHTML += "<br>f() starts";
- 
+ 	document.getElementById("SD").innerHTML = root.name +" "+ root.size;
   	var currentPos = $("#SD").offset().left;
   	document.getElementById("SD").style.left = currentPos - $("#SD").width()/2;
   	document.getElementById("SD").innerHTML = root.name +" "+ root.size + "|"+currentPos+"|"+$("#SD").width()/2;
