@@ -10,8 +10,8 @@
 		z-index:100;
 		position:absolute;
 		top:350px;
-		left:460px;
-		border:1px solid red;
+		left:470px;
+		
 	}
 </style>
 
@@ -83,6 +83,7 @@ root.size=0;
 for(var i=0;i<root.children.length;i++) {
 	root.size+=root.children[i].size;
 }
+var currentPos = $("#SD").offset().left;
 var myColor = d3.scale.linear()
 	.domain([-1,0,1])
 	.range(["red","white","green"]);
@@ -112,7 +113,7 @@ var level=0;
 function f() {
 document.getElementById('log').innerHTML += "<br>f() starts";
  	document.getElementById("SD").innerHTML = root.name +" "+ root.size;
-  	var currentPos = $("#SD").offset().left;
+  	
   	document.getElementById("SD").style.left = currentPos - $("#SD").width()/2;
   	//document.getElementById("SD").innerHTML = root.name +" "+ root.size + "|"+currentPos+"|"+$("#SD").width()/2;
   // Compute the initial layout on the entire tree to sum sizes.
@@ -170,7 +171,7 @@ document.getElementById('log').innerHTML += "<br>computeTextRotation()";
 }
 	  
   function zoomIn(p) {g.attr("opacity", 0); document.getElementById("SD").innerHTML = p.name +" "+ p.size;
-  	var currentPos = $("#SD").offset().left;
+  	
   	document.getElementById("SD").style.left = currentPos - $("#SD").width()/2;
 	document.getElementById('log').innerHTML += "<br>zoomIn1";
     if (p.depth > 1) p = p.parent;
@@ -182,7 +183,7 @@ document.getElementById('log').innerHTML += "<br>computeTextRotation()";
   }
 
   function zoomOut(p) {g.attr("opacity", 0); document.getElementById("SD").innerHTML = p.parent.name + " "+p.parent.size;
-  	var currentPos = $("#SD").offset().left;
+  	
   	document.getElementById("SD").style.left = currentPos - $("#SD").width()/2;
     if (!p.parent) return; 
     zoom(p.parent, p);
