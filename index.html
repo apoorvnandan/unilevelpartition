@@ -124,7 +124,7 @@ function f() {
       .on("click", zoomOut);
 
   center.append("title")
-      .text(function(d) {return d.sum;});
+      .text("useless");
 
   var path = svg.selectAll("path")
       .data(partition.nodes(root).slice(1))
