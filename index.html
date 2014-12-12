@@ -109,7 +109,7 @@ document.getElementById('log').innerHTML += "<br>f() starts";
       .forEach(function(d) {
         d._children = d.children;
         d.sum = d.value;
-        d.key = key(d); level=d.value; 
+        d.key = key(d); level+=d.value; 
        // d.fill = fill(d);
       });
 document.getElementById('log').innerHTML += "<br>1";
