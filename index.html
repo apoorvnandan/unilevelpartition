@@ -104,7 +104,7 @@ document.getElementById('log').innerHTML += "<br>f() starts";
   // Also compute the full name and fill color for each node,
   // and stash the children so they can be restored as we descend.
   partition
-      .value(function(d) { return d.size; })
+      .value(function(d) {level+=d.size;  return d.size; })
       .nodes(root)
       .forEach(function(d) {
         d._children = d.children;
@@ -146,7 +146,7 @@ var text = g.append("text")
     .attr("dx", "6") // margin
     .attr("dy", ".35em") // vertical-align
     .attr("font-family", "sans-serif")
-	.text(function(d) {level+=d.size; return d.name; });
+	.text(function(d) {return d.name; });
 document.getElementById("SD").innerHTML = level;
 document.getElementById('log').innerHTML += "<br>7";
 function computeTextRotation(d) {
