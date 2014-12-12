@@ -104,12 +104,12 @@ document.getElementById('log').innerHTML += "<br>f() starts";
   // Also compute the full name and fill color for each node,
   // and stash the children so they can be restored as we descend.
   partition
-      .value(function(d) {level+=d.size;  return d.size; })
+      .value(function(d) { return d.size; })
       .nodes(root)
       .forEach(function(d) {
         d._children = d.children;
         d.sum = d.value;
-        d.key = key(d);
+        d.key = key(d); level+=d.size; 
        // d.fill = fill(d);
       });
 document.getElementById('log').innerHTML += "<br>1";
