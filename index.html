@@ -154,7 +154,7 @@ document.getElementById('log').innerHTML += "<br>computeTextRotation()";
   return ((d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
 }
 	  
-  function zoomIn(p) {g.attr("opacity", 0); document.getElementById("SD").innerHTML = p.name;
+  function zoomIn(p) {g.attr("opacity", 0); document.getElementById("SD").innerHTML = p.name +" "+ p.size;
 	document.getElementById('log').innerHTML += "<br>zoomIn1";
     if (p.depth > 1) p = p.parent;
 	document.getElementById('log').innerHTML += "<br>zoomIn2";
@@ -165,7 +165,7 @@ document.getElementById('log').innerHTML += "<br>computeTextRotation()";
   }
 
   function zoomOut(p) {g.attr("opacity", 0);
-    if (!p.parent) return;
+    if (!p.parent) return; document.getElementById("SD").innerHTML = p.name + " "+p.size;
     zoom(p.parent, p);
   }
 
