@@ -4,6 +4,13 @@
 	#log{
 	display:none;
 	}
+	#SD {
+		color: green;
+		z-index:100;
+		position:absolute;
+		top:350px;
+		left:480px;
+	}
 </style>
 
 <p id='log'></p>
@@ -164,8 +171,8 @@ document.getElementById('log').innerHTML += "<br>computeTextRotation()";
 	document.getElementById('log').innerHTML += "<br>zoomIn3";
   }
 
-  function zoomOut(p) {g.attr("opacity", 0);
-    if (!p.parent) return; document.getElementById("SD").innerHTML = p.name + " "+p.size;
+  function zoomOut(p) {g.attr("opacity", 0); document.getElementById("SD").innerHTML = p.name + " "+p.size;
+    if (!p.parent) return; 
     zoom(p.parent, p);
   }
 
