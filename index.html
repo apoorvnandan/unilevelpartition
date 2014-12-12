@@ -1,8 +1,13 @@
 <script src="jquery.js"></script>
 <script src="d3.js"></script>
-
+<style>
+	#log{
+	display:none;
+	}
+</style>
 
 <p id='log'></p>
+<div id = "SD"></div>
 <div id="body">
       
     </div>
@@ -91,14 +96,14 @@ var arc = d3.svg.arc()
     .outerRadius(function(d) { return radius / 3 * (d.depth + 1) - 1; });
 
 f();
-	
+var _sum;
 function f() {
 document.getElementById('log').innerHTML += "<br>f() starts";
   // Compute the initial layout on the entire tree to sum sizes.
   // Also compute the full name and fill color for each node,
   // and stash the children so they can be restored as we descend.
   partition
-      .value(function(d) { return d.size; })
+      .value(function(d) {document.getElementById("SD").innerHTML=d.size; return d.size; })
       .nodes(root)
       .forEach(function(d) {
         d._children = d.children;
