@@ -2,7 +2,7 @@
 <script src="d3.js"></script>
 
 
-<p id='o'></p>
+<p id='log'></p>
 <div id="body">
       
     </div>
@@ -20,23 +20,22 @@ var url = "https://script.google.com/macros/s/AKfycbzEEX2A5pMpNCabyQPu58I0yOCfmI
 
 $(document).ready(function() {
     $.getJSON(url+"?callback=?",{method:ss_url}, function(x){
-document.getElementById('o').innerHTML = x[1][1];
-//new code for creating object
-
+document.getElementById('log').innerHTML += x[1][1];
 
 var obj = function(name,x) {
- return {"name":name,"size":x,"children":[]};
+ return {"name":name,"size":Math.abs(x),"sign":x,"children":[]};
 };
 var root = new obj();
-root.name = 'flare';
+root.name = 'root';
 var column = x[0].length;
 var row = x.length;
 var parent = root;
 var temp; var c,r,flag; var temp1,temp2;
-for(c=0;c<column-1;c++) {
+for(c=0;c<column-1;c+=2) {
  temp = new obj();
  temp.name = x[0][c];
- if(c==column-2) temp.size = x[0][c+1];
+ temp.sign = x[0][c+1];
+ temp.size = Math.abs(temp.sign);
  parent.children.push(temp);
  parent = parent.children[0];
 }
@@ -48,15 +47,14 @@ for(r=1;r<row;r++) {
   for(d=0;d<parent.children.length;d++) {
    if(parent.children[d].name == x[r][c]) {
     parent = parent.children[d];
-  //temp1 = parent.children[d].name;
-  flag=1;
+	if(c==column-2) {parent.sign+=x[r][c+1]; parent.size += Math.abs(x[r][c+1]);} //line added 
+	//temp1 = parent.children[d].name;
+	flag=1;
    }
   }
    if(flag==0) {
    temp = new obj();
-   if(c==column-2) { temp.name = x[r][c]; temp.size=x[r][c+1];}
-   else
-   temp.name = x[r][c];
+   { temp.name = x[r][c]; temp.sign=x[r][c+1]; temp.size = Math.abs(temp.sign);}
    
    parent.children.push(temp);
    parent=parent.children[parent.children.length-1];
@@ -66,20 +64,15 @@ for(r=1;r<row;r++) {
  }
  
 }
-
-
-
 console.log(root);
-//my code for visualisation
+
+var myColor = d3.scale.linear()
+	.domain([-1,0,1])
+	.range(["red","white","green"]);
+	
+
 var margin = {top: 350, right: 480, bottom: 350, left: 480},
     radius = Math.min(margin.top, margin.right, margin.bottom, margin.left) - 10;
-
-var hue = d3.scale.category10();
-
-var luminance = d3.scale.sqrt()
-    .domain([0, 1e6])
-    .clamp(true)
-    .range([90, 20]);
 
 var svg = d3.select("body").append("svg")
     .attr("width", margin.left + margin.right)
@@ -98,9 +91,9 @@ var arc = d3.svg.arc()
     .outerRadius(function(d) { return radius / 3 * (d.depth + 1) - 1; });
 
 f();
-        
+	
 function f() {
-
+document.getElementById('log').innerHTML += "<br>f() starts";
   // Compute the initial layout on the entire tree to sum sizes.
   // Also compute the full name and fill color for each node,
   // and stash the children so they can be restored as we descend.
@@ -111,56 +104,77 @@ function f() {
         d._children = d.children;
         d.sum = d.value;
         d.key = key(d);
-        d.fill = fill(d);
+       // d.fill = fill(d);
       });
-
+document.getElementById('log').innerHTML += "<br>1";
   // Now redefine the value function to use the previously-computed sum.
   partition
       .children(function(d, depth) { return depth < 1 ? d._children : null; })
-      .value(function(d) { return d.sum; });
-
+      .value(function(d) { return d.size; });
+document.getElementById('log').innerHTML += "<br>2";
   var center = svg.append("circle")
       .attr("r", radius / 3)
       .on("click", zoomOut);
-
+document.getElementById('log').innerHTML += "<br>3";
   center.append("title")
-      .text("useless");
-
-  var path = svg.selectAll("path")
+      .text("zoom out");
+document.getElementById('log').innerHTML += "<br>4";
+	  var path = svg.selectAll("g")
       .data(partition.nodes(root).slice(1))
     .enter().append("path")
       .attr("d", arc)
-      .style("fill", function(d) { return d.fill; })
-      .each(function(d) { this._current = updateArc(d); })
+      .style("fill", function(d) { return myColor(d.sign); })
+	  .each(function(d) { this._current = updateArc(d); })
       .on("click", zoomIn);
+document.getElementById('log').innerHTML += "<br>5";
+	var g = svg.selectAll("g")
+      .data(partition.nodes(root).slice(1))
+    .enter().append("g");
+document.getElementById('log').innerHTML += "<br>6";
+	  
+  
+	  
+var text = g.append("text")
+	.attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+	.attr("x", function(d) { return (d.y); })
+    .attr("dx", "6") // margin
+    .attr("dy", ".35em") // vertical-align
+    .attr("font-family", "sans-serif")
+	.text(function(d) { return d.name; });
 
-  function zoomIn(p) {
-        //alert("zoomIn  1");
+document.getElementById('log').innerHTML += "<br>7";
+function computeTextRotation(d) {
+document.getElementById('log').innerHTML += "<br>computeTextRotation()";
+  return ((d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+}
+	  
+  function zoomIn(p) {g.attr("opacity", 0);
+	document.getElementById('log').innerHTML += "<br>zoomIn1";
     if (p.depth > 1) p = p.parent;
-        //alert("zoomIn  2");
+	document.getElementById('log').innerHTML += "<br>zoomIn2";
     //if (!p.children) return;
-        //alert("zoomIn  3");
+	//alert("zoomIn  3");
     zoom(p, p);
-        //alert("zoomIn  4");
+	document.getElementById('log').innerHTML += "<br>zoomIn3";
   }
 
-  function zoomOut(p) {
+  function zoomOut(p) {g.attr("opacity", 0);
     if (!p.parent) return;
     zoom(p.parent, p);
   }
 
   // Zoom to the specified new root.
   function zoom(root, p) {
-        //alert("zoom  1");
+	document.getElementById('log').innerHTML += "<br>zoom1";
     if (document.documentElement.__transition__) return;
-        //alert("zoom  2");
+	document.getElementById('log').innerHTML += "<br>zoom2";
     // Rescale outside angles to match the new layout.
     var enterArc,
         exitArc,
         outsideAngle = d3.scale.linear().domain([0, 2 * Math.PI]);
-
+	document.getElementById('log').innerHTML += "<br>zoom3";
     function insideArc(d) {
-                //alert("InsideArc  1");
+		document.getElementById('log').innerHTML += "<br>insideArc";
       return p.key > d.key
           ? {depth: d.depth - 1, x: 0, dx: 0} : p.key < d.key
           ? {depth: d.depth - 1, x: 2 * Math.PI, dx: 0}
@@ -168,37 +182,48 @@ function f() {
     }
 
     function outsideArc(d) {
-                //alert("outsideArc  1");
+		document.getElementById('log').innerHTML += "<br>outsideArc";
       return {depth: d.depth + 1, x: outsideAngle(d.x), dx: outsideAngle(d.x + d.dx) - outsideAngle(d.x)};
     }
-
+	document.getElementById('log').innerHTML += "<br>zoom4";
     center.datum(root);
-
+	document.getElementById('log').innerHTML += "<br>zoom5";
     // When zooming in, arcs enter from the outside and exit to the inside.
     // Entering outside arcs start from the old layout.
-    if (root === p) enterArc = outsideArc, exitArc = insideArc, outsideAngle.range([p.x, p.x + p.dx]);
+    if (root === p) {document.getElementById('log').innerHTML += "<br>zoom6"; enterArc = outsideArc, exitArc = insideArc, outsideAngle.range([p.x, p.x + p.dx]); document.getElementById('log').innerHTML += "<br>zoom7";}
 
     path = path.data(partition.nodes(root).slice(1), function(d) { return d.key; });
-
+	g = g.data(partition.nodes(root).slice(1), function(d) { return d.key; });
+	document.getElementById('log').innerHTML += "<br>zoom8";
     // When zooming out, arcs enter from the inside and exit to the outside.
     // Exiting outside arcs transition to the new layout.
     if (root !== p) enterArc = insideArc, exitArc = outsideArc, outsideAngle.range([p.x, p.x + p.dx]);
-
+	document.getElementById('log').innerHTML += "<br>zoom9";
     d3.transition().duration(d3.event.altKey ? 7500 : 750).each(function() {
       path.exit().transition()
           .style("fill-opacity", function(d) { return d.depth === 1 + (root === p) ? 1 : 0; })
           .attrTween("d", function(d) { return arcTween.call(this, exitArc(d)); })
           .remove();
-
+	document.getElementById('log').innerHTML += "<br>zoom10";
       path.enter().append("path")
           .style("fill-opacity", function(d) { return d.depth === 2 - (root === p) ? 1 : 0; })
-          .style("fill", function(d) { return d.fill; })
+          .style("fill", function(d) { return myColor(d.sign); })
           .on("click", zoomIn)
           .each(function(d) { this._current = enterArc(d); });
-
+	
+	g.enter().append("text")
+		.attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+		.attr("x", function(d) { return (d.y); })
+		.attr("dx", "6") // margin
+		.attr("dy", ".35em") // vertical-align
+      .attr("font-family", "sans-serif")
+		.text(function(d) { return d.name; });
+	
+	document.getElementById('log').innerHTML += "<br>zoom11";
       path.transition()
           .style("fill-opacity", 1)
           .attrTween("d", function(d) { return arcTween.call(this, updateArc(d)); });
+	document.getElementById('log').innerHTML += "<br>zoom12";
     });
   }
 }
@@ -209,15 +234,8 @@ function key(d) {
   return k.reverse().join(".");
 }
 
-function fill(d) {
-  var p = d;
-  while (p.depth > 1) p = p.parent;
-  var c = d3.lab(hue(p.name));
-  c.l = luminance(d.sum);
-  return c;
-}
-
 function arcTween(b) {
+	document.getElementById('log').innerHTML += "<br>arcTween";
   var i = d3.interpolate(this._current, b);
   this._current = i(0);
   return function(t) {
@@ -226,12 +244,13 @@ function arcTween(b) {
 }
 
 function updateArc(d) {
+	document.getElementById('log').innerHTML += "<br>updateArc";
   return {depth: d.depth, x: d.x, dx: d.dx};
 }
 
 d3.select(self.frameElement).style("height", margin.top + margin.bottom + "px");
 
-})
-});
 
+});
+}
 </script>
