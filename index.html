@@ -13,6 +13,10 @@
 		left:480px;
 		
 	}
+	#iframe {
+		padding:1px; 
+		border: 5px solid red;
+	}
 </style>
 
 <p id='log'></p>
@@ -20,7 +24,7 @@
 <div id="body">
       
     </div>
-    <iframe id='iframe' style='border: 5px solid red;' src="https://docs.google.com/presentation/d/1lBV15n-7vQuE3VbNMOUIgx0GTJlbcaQtGgCaURUTYnY/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    <iframe id='iframe' style="padding:1px; border: 5px solid red;" src="https://docs.google.com/presentation/d/1lBV15n-7vQuE3VbNMOUIgx0GTJlbcaQtGgCaURUTYnY/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 <script type="text/javascript">
 var ppt = $("#iframe").contents().find("html").html();
 $("#iframe").contents().find("html").html("<div style='border: 5px solid red; height:500px;>"+ppt+"<"+"/div>");
