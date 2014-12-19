@@ -20,10 +20,10 @@
 <div id="body">
       
     </div>
-    <iframe id='iframe' src="https://docs.google.com/presentation/d/1lBV15n-7vQuE3VbNMOUIgx0GTJlbcaQtGgCaURUTYnY/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    <iframe id='iframe' style='border: 5px solid red;' src="https://docs.google.com/presentation/d/1lBV15n-7vQuE3VbNMOUIgx0GTJlbcaQtGgCaURUTYnY/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 <script type="text/javascript">
 var ppt = $("#iframe").contents().find("html").html();
-$("#iframe").contents().find("html").html("<div style='height:50%; background-color:#DDFFDD'>"+ppt+"<"+"/div>");
+$("#iframe").contents().find("html").html("<div style='border: 5px solid red; height:500px;>"+ppt+"<"+"/div>");
 //var pref = new gadgets.Prefs();
 var ss_url = "https://docs.google.com/spreadsheet/ccc?key=0AohMaI5ok_84dGsyM2E3d1JwM2gyMGpUTXhfUXFSWnc&usp=drive_web#gid=0";//pref.getString("url");
 
