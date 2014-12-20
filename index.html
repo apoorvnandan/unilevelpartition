@@ -26,13 +26,13 @@
     </div>
     <iframe id='iframe' style="padding:1px; border: 5px solid red;" src="https://docs.google.com/presentation/d/1lBV15n-7vQuE3VbNMOUIgx0GTJlbcaQtGgCaURUTYnY/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 <script type="text/javascript">
-var ppt = document.getElementById("iframe").contentWindow.document.documentElement.outerHTML;
+var ppt = document.getElementById("iframe").src;
 $('#iframe').attr('src',"");
 $("#iframe").contents().find("html").html("<style>#mydiv {height: 450px; width:800px; padding:1px; border: 5px solid red;}<"+"/style><div id='mydiv'>"+"<"+"/div>");
 $('#iframe').remove();
 alert(ppt+"");
 var iframe = document.createElement('iframe');
-var html = "<style>#mydiv {height: 450px; width:800px; padding:1px; border: 5px solid red;}<"+"/style><div id='mydiv'>"+ppt+"<"+"/div>";
+var html = "<style>#mydiv {height: 450px; width:800px; padding:1px; border: 5px solid red;}<"+"/style><iframe id='mydiv' src = "+ppt+">"+"<"+"/iframe>";
 iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
 document.body.appendChild(iframe);
 
