@@ -31,7 +31,7 @@ $('#iframe').attr('src',"");
 $("#iframe").contents().find("html").html("<style>#mydiv {height: 450px; width:800px; padding:1px; border: 5px solid red;}<"+"/style><div id='mydiv'>"+"<"+"/div>");
 $('#iframe').remove();
 var iframe = document.createElement('iframe');
-var html = "<style>#mydiv {height: 450px; width:800px; padding:1px; border: 5px solid red;}<"+"/style><div id='mydiv'>"+"<"+"/div>";
+var html = "<style>#mydiv {height: 450px; width:800px; padding:1px; border: 5px solid red;}<"+"/style><div id='mydiv'>"+ppt+"<"+"/div>";
 iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
 document.body.appendChild(iframe);
 
